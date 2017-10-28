@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "dockerode": "2.5.3"
+  }
+}

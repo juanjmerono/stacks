@@ -1,2 +1,3 @@
 #!/bin/bash
-while read in; do curl -X GET 'http://'$1'/imageUpdate?image='$in -H 'Authorization: '$2'' -H 'X-Registry-Authorization: '$3''; done < images
+#docker run --rm -it -v ${PWD}:/app -w /app node:8.2.1-alpine npm install
+docker run --rm -it -v ${PWD}:/app -v /var/run/docker.sock:/var/run/docker.sock -w /app node:8.2.1-alpine node download.js $*

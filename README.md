@@ -10,6 +10,11 @@ docker swarm join ....
 docker swarm join ....
 ....
 ```
+*or*
+
+[![Try in PWD](https://cdn.rawgit.com/play-with-docker/stacks/cff22438/assets/images/button.png)](http://play-with-docker.com/?stack=https://raw.githubusercontent.com/juanjmerono/stacks/master/visualizer-compose.yml&stack_name=visualizer)
+
+Use: `docker swarm join-token worker` to get the command to add worker nodes to your swarm.
 
 ## Connect to the swarm manager and clone the repo
 
@@ -17,27 +22,21 @@ docker swarm join ....
 git clone https://github.com/juanjmerono/stacks.git
 ```
 
+## Now pull some images from your gitlab registry
+
+```
+./download_images.sh <gitlab-token>
+```
+*Note:* Repeat this process on each worker too.
+
 ## Deploy the visualizer stack
 
 ```
-docker pull yoanyo/swarm-visualizer:latest
 docker stack deploy -c visualizer-compose.xml visualizer
 ```
 *or*
 ```
 ./run_stack.sh start visualizer
-```
-
-## Now you can pull images from your gitlab registry
-
-```
-curl -X GET 'http://swarm-manager:9090/imageUpdate?image=<image-tag>' \
-  -H 'Authorization: <visualizer-token>' \
-  -H 'X-Registry-Authorization: <gitlab-token>'
-```
-*or*
-```
-./download_images.sh swarm-manager:9090 visualizer-token gitlab-token
 ```
 
 ## Now you are ready to start other stacks
