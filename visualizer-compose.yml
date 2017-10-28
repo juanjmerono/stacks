@@ -1,0 +1,13 @@
+version: '3'
+services:
+   visual:
+      image: 'yoanyo/swarm-visualizer:latest'
+      environment:
+        - API_TOKEN=<some-api-token>
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+      ports:
+        - '9090:8080'
+      deploy:
+        placement:
+          constraints: [node.role == manager]

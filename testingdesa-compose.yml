@@ -1,0 +1,64 @@
+version: '3'
+services:
+   db:
+      image: 'mysql:5.6.27'
+      networks:
+        - testing-network
+      environment:
+        - MYSQL_ROOT_PASSWORD=
+        - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+        - MYSQL_USER=testing
+        - MYSQL_PASSWORD=testing
+        - MYSQL_DATABASE=testingdb
+      command:
+        - --character-set-server=utf8
+      deploy:
+        restart_policy:
+          condition: on-failure
+          delay: 30s
+          max_attempts: 3
+          window: 120s
+
+   testing:
+      image: 'registry.gitlab.com/juanjmerono/testing:master'
+      networks:
+        - testing-network
+        - lb-network
+      links:
+        - db
+      depends_on:
+        - db
+      deploy:
+        replicas: 6
+        update_config:
+          parallelism: 2
+          delay: 30s
+        restart_policy:
+          condition: on-failure
+          delay: 30s
+          max_attempts: 3
+          window: 120s
+      environment:
+        - SERVICE_PORTS=8080
+
+   lb:
+      image: 'dockercloud/haproxy:latest'
+      networks:
+        - lb-network
+      links:
+        - testing
+      depends_on:
+        - testing
+      environment:
+        - BALANCE=leastconn
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+      ports:
+        - '80:80'
+      deploy:
+        placement:
+          constraints: [node.role == manager]
+
+networks:
+  testing-network:
+  lb-network:
