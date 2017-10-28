@@ -20,6 +20,7 @@ git clone https://github.com/juanjmerono/stacks.git
 ## Deploy the visualizer stack
 
 ```
+docker pull yoanyo/swarm-visualizer:latest
 docker stack deploy -c visualizer-compose.xml visualizer
 ```
 *or*
