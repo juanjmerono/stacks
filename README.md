@@ -25,9 +25,18 @@ git clone https://github.com/juanjmerono/stacks.git
 ## Now pull some images from your gitlab registry
 
 ```
-./download_images.sh <gitlab-token>
+./download_images.sh -s <gitlab-token>
 ```
-*Note:* Repeat this process on each worker too.
+## Now run a listener on each worker (clone this repo or just download the compose file).
+
+```
+docker-compose -f socat-compose.yml up -d
+```
+Go to the manager and add the worker
+
+```
+./add_worker.sh <manager-host> <worker-ip> <auth-token> <gitlab-token>
+```
 
 ## Deploy the visualizer stack
 

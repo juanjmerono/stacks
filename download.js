@@ -1,15 +1,17 @@
 var Docker = require('dockerode');
-var docker = new Docker({socketPath: '/var/run/docker.sock'});
+var http = require('http');
+var docker;
 var mode = process.argv[2];
 var regAuth = process.argv[3];
 if (mode == '-ip') {
-	docker = new Docker({protocol:'http', host: process.argv[3] , port: 2376});
+	docker = new Docker({host: process.argv[3] , port: 2376});
 	regAuth = process.argv[4];
+} else if (mode == '-s') {
+	 docker = new Docker({socketPath: '/var/run/docker.sock'});
 }
 
 if (mode == '-ip' || mode == '-s') {
 	var auth = {'authconfig':{'key': regAuth}};
-
 	var lineReader = require('readline').createInterface({
 		input: require('fs').createReadStream('images')
 	});
