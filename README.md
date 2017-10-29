@@ -2,7 +2,9 @@
 
 Store some stack definitions to deploy in your swarm.
 
-## Create the swarm and add some nodes on it
+## Using public images
+
+### Create the swarm and add some nodes on it
 
 ```
 docker swarm init --advertise-addr eth0
@@ -16,18 +18,46 @@ docker swarm join ....
 
 Use: `docker swarm join-token worker` to get the command to add worker nodes to your swarm.
 
-## Connect to the swarm manager and clone the repo
+### Connect to the swarm manager and clone the repo
 
 ```
 git clone https://github.com/juanjmerono/stacks.git
 ```
 
-## Now pull some images from your gitlab registry
+### Deploy the visualizer stack
+
+```
+docker stack deploy -c visualizer-compose.xml visualizer
+```
+*or*
+```
+./run_stack.sh start visualizer
+```
+
+### Change api token (by default is changethistoken)
+
+```
+./update_token.sh manager-host old-api-token new-api-token
+```
+
+### Now you are ready to start other stacks
+
+```
+docker stack deploy -c testingdesa-compose.xml testingdesa
+```
+*or*
+```
+./run_stack.sh start testingdesa
+```
+
+## Using private registry
+
+### Pull images from your gitlab registry
 
 ```
 ./download_images.sh -s <gitlab-token>
 ```
-## Now run a listener on each worker (clone this repo or just download the compose file).
+### Run a listener on each worker (clone this repo or just download the compose file).
 
 ```
 docker-compose -f socat-compose.yml up -d
@@ -38,22 +68,3 @@ Go to the manager and add the worker
 ./add_worker.sh <manager-host> <worker-ip> <auth-token> <gitlab-token>
 ```
 
-## Deploy the visualizer stack
-
-```
-docker stack deploy -c visualizer-compose.xml visualizer
-```
-*or*
-```
-./run_stack.sh start visualizer
-```
-
-## Now you are ready to start other stacks
-
-```
-docker stack deploy -c testingdesa-compose.xml testingdesa
-```
-*or*
-```
-./run_stack.sh start testingdesa
-```

@@ -3,7 +3,7 @@ services:
    visual:
       image: 'yoanyo/swarm-visualizer:latest'
       environment:
-        - API_TOKEN=<some-api-token>
+        - API_TOKEN=changethistoken
       volumes:
         - /var/run/docker.sock:/var/run/docker.sock
       ports:
