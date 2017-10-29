@@ -1,7 +1,7 @@
 version: '3'
 services:
    noding:
-      image: 'registry.gitlab.com/juanjmerono/noding:master'
+      image: 'yoanyo/noding:master'
       networks:
         - noding-network
       deploy:

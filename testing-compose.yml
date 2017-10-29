@@ -20,7 +20,7 @@ services:
           window: 120s
 
    testing:
-      image: 'registry.gitlab.com/juanjmerono/testing:prod'
+      image: 'yoanyo/testing:prod'
       networks:
         - testing-network
         - lb-network
