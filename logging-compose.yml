@@ -1,0 +1,19 @@
+version: '3'
+services:
+   python:
+      image: 'python:2.7'
+      networks:
+        - log-network
+      volumes:
+        - .:/tmp
+      command: python -u /tmp/logging.py
+      labels:
+        - "com.logstash.tag=python01"
+      logging:
+        driver: syslog
+        options:
+          syslog-address: "tcp://${LOGSTASH_HOST}:5000"
+          syslog-facility: daemon
+          labels: com.logstash.tag
+networks:
+  log-network:
