@@ -16,11 +16,6 @@ services:
           window: 120s
       environment:
         - SERVICE_PORTS=3000
-      logging:
-        driver: syslog
-        options:
-          syslog-address: "tcp://${LOGSTASH_HOST}:5000"
-          syslog-facility: daemon
 
    lb:
       image: 'dockercloud/haproxy:latest'
