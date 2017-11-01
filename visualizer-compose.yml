@@ -11,3 +11,14 @@ services:
       deploy:
         placement:
           constraints: [node.role == manager]
+   portainer:
+      image: 'portainer/portainer:latest'
+      command: -H unix:///var/run/docker.sock
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+      ports:
+        - '9000:9000'
+      deploy:
+        placement:
+          constraints: [node.role == manager]
+          
